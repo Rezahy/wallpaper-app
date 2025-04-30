@@ -1,4 +1,4 @@
-import { Wallpaper } from "lucide-react";
+import { ChevronRight, LayoutGrid, Wallpaper } from "lucide-react";
 import {
 	Sidebar,
 	SidebarContent,
@@ -8,10 +8,18 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
 	useSidebar,
 } from "@/components/ui/sidebar";
-import { menuItemLinks } from "@/lib/menu-item-link";
+import { categories, menuItemLinks } from "@/lib/menu-item-link";
 import { Link, useLocation } from "react-router-dom";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "./ui/collapsible";
 
 const AppSidebar = () => {
 	const { pathname } = useLocation();
@@ -73,6 +81,34 @@ const AppSidebar = () => {
 							))}
 						</SidebarMenu>
 					</SidebarGroupContent>
+				</SidebarGroup>
+				<SidebarGroup>
+					<SidebarMenu>
+						<Collapsible asChild className="group/collapsible">
+							<SidebarMenuItem>
+								<CollapsibleTrigger asChild>
+									<SidebarMenuButton tooltip="Categories">
+										<LayoutGrid />
+										<span>Category</span>
+										<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+									</SidebarMenuButton>
+								</CollapsibleTrigger>
+								<CollapsibleContent>
+									<SidebarMenuSub>
+										{categories.map((category) => (
+											<SidebarMenuSubItem>
+												<SidebarMenuSubButton asChild>
+													<Link to={`category/${category}`}>
+														<span>{category}</span>
+													</Link>
+												</SidebarMenuSubButton>
+											</SidebarMenuSubItem>
+										))}
+									</SidebarMenuSub>
+								</CollapsibleContent>
+							</SidebarMenuItem>
+						</Collapsible>
+					</SidebarMenu>
 				</SidebarGroup>
 			</SidebarContent>
 		</Sidebar>
