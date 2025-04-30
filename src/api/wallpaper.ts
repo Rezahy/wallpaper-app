@@ -9,6 +9,17 @@ class WallpaperApi {
 		}
 		return response.data as WallpaperResponse;
 	}
+	static async getWallpaperById(id: string) {
+		const response = await axiosInstance.get("api", {
+			params: {
+				id,
+			},
+		});
+		if (response.status !== 200) {
+			throw new Error("something went wrong");
+		}
+		return (response.data as WallpaperResponse).hits[0];
+	}
 }
 
 export default WallpaperApi;

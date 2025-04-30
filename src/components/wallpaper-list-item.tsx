@@ -13,7 +13,7 @@ type WallpaperListItemProps = {
 const WallpaperListItem = ({ wallpaper, index }: WallpaperListItemProps) => {
 	return (
 		<MotionComponent
-			to="/asd"
+			to={`/wallpaper/${wallpaper.id}`}
 			layout
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}

@@ -8,8 +8,8 @@ export const menuItemLinks: MenuItemLink[] = [
 		icon: Heart,
 	},
 	{
-		title: "Bookmarked",
-		url: "/bookmark",
+		title: "Saved",
+		url: "/saved",
 		icon: Bookmark,
 	},
 ];
