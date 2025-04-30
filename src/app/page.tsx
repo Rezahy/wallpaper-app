@@ -55,7 +55,7 @@ const HomePage = () => {
 				</form>
 			</div>
 			{isPending && <WallpaperListSkeleton />}
-			{data && <WallpaperList data={data} />}
+			{data && <WallpaperList data={data.hits} />}
 		</section>
 	);
 };

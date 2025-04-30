@@ -15,7 +15,7 @@ import ShareButton from "./share-button";
 import DownloadButton from "./download-button";
 import useWallpaper from "@/stores/wallpaper";
 
-const WallpaperDetails = () => {
+const WallpaperDetailsPage = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data } = useQuery({
 		queryKey: ["wallpaper", id],
@@ -93,4 +93,4 @@ const WallpaperDetails = () => {
 		);
 	}
 };
-export default WallpaperDetails;
+export default WallpaperDetailsPage;
