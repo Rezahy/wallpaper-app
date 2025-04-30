@@ -65,7 +65,7 @@ const AppSidebar = () => {
 										onClick={sidebarMenuButtonClickHandler}
 									>
 										<Link to={item.url}>
-											<item.icon />
+											<item.icon className="fill-primary" absoluteStrokeWidth />
 											<span>{item.title}</span>
 										</Link>
 									</SidebarMenuButton>

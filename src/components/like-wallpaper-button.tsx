@@ -1,15 +1,41 @@
+import useWallpaper from "@/stores/wallpaper";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Hit } from "@/@types/wallpaper-response";
 
-const LikeWallpaperButton = () => {
+type LikeWallpaperButtonProps = {
+	wallpaper: Hit;
+};
+const LikeWallpaperButton = ({ wallpaper }: LikeWallpaperButtonProps) => {
+	const isLiked = useWallpaper((state) => state.isLiked);
+	const addToFavorites = useWallpaper((state) => state.addToFavorites);
+	const removeFromFavorites = useWallpaper(
+		(state) => state.removeFromFavorites
+	);
+	useWallpaper((state) => state.favoriteWallpapers);
+	const onClickHandler = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault();
+		if (isLiked(wallpaper)) {
+			removeFromFavorites(wallpaper);
+		} else {
+			addToFavorites(wallpaper);
+		}
+	};
 	return (
 		<Button
-			// className="xl:scale-0 xl:opacity-0 cursor-pointer absolute top-2 right-2  dark:bg-black/50  dark:hover:bg-black/75 group-hover:scale-100 group-hover:opacity-100 duration-300"
 			className="bg-black/20 dark:bg-black/20 cursor-pointer hover:bg-black/40 dark:hover:bg-black/40"
 			variant="outline"
 			size="icon"
+			onClick={onClickHandler}
 		>
-			<Heart className="fill-white text-white" />
+			<Heart
+				className={cn("text-white", {
+					"fill-white text-white": isLiked(wallpaper),
+				})}
+			/>
 		</Button>
 	);
 };
