@@ -1,5 +1,6 @@
 import AppSidebar from "@/components/app-sidebar";
 import AppToaster from "@/components/app-toaster";
+import Footer from "@/components/footer";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -21,7 +22,7 @@ export default function Layout({
 				<ModeToggle />
 			</div>
 			<AppToaster />
-			<footer>footer</footer>
+			<Footer />
 		</>
 	);
 }

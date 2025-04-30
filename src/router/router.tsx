@@ -4,6 +4,7 @@ import HomePage from "@/app/page";
 import { Navigate, RouteObject } from "react-router-dom";
 const router: RouteObject[] = [
 	{ path: "/", element: <HomePage /> },
+	{ path: "/wallpaper/:slug", element: <HomePage /> },
 	{ path: "/favorite", element: <FavoritePage /> },
 	{ path: "/notfound", element: <NotFound /> },
 	{ path: "*", element: <Navigate to="/notfound" replace /> },
