@@ -38,3 +38,10 @@ export const categories = [
 ] as const;
 
 export type Category = (typeof categories)[number];
+
+export const isCategory = (name: unknown): name is Category => {
+	if (typeof name === "string") {
+		return categories.includes(name as Category);
+	}
+	return false;
+};

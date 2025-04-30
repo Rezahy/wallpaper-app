@@ -1,3 +1,4 @@
+import CategoryPage from "@/app/category/[name]/page";
 import FavoritePage from "@/app/favorite/page";
 import NotFound from "@/app/not-found";
 import HomePage from "@/app/page";
@@ -9,6 +10,7 @@ const router: RouteObject[] = [
 	{ path: "/wallpaper/:id", element: <WallpaperDetailsPage /> },
 	{ path: "/saved", element: <SavedWallpapersPage /> },
 	{ path: "/favorite", element: <FavoritePage /> },
+	{ path: "/category/:name", element: <CategoryPage /> },
 	{ path: "/notfound", element: <NotFound /> },
 	{ path: "*", element: <Navigate to="/notfound" replace /> },
 ];
