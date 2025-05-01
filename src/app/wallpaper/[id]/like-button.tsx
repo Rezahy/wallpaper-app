@@ -3,23 +3,26 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useWallpaper from "@/stores/wallpaper";
 import { Heart } from "lucide-react";
+import { useTransition } from "react";
 type LikeButtonProps = {
 	likes: number;
 	wallpaper: Hit;
 };
 const LikeButton = ({ likes, wallpaper }: LikeButtonProps) => {
-	useWallpaper((state) => state.favoriteWallpapers);
+	const [, startTransition] = useTransition();
 	const isLiked = useWallpaper((state) => state.isLiked);
 	const removeFromFavorites = useWallpaper(
 		(state) => state.removeFromFavorites
 	);
 	const addToFavorites = useWallpaper((state) => state.addToFavorites);
 	const onClickHandler = () => {
-		if (isLiked(wallpaper)) {
-			removeFromFavorites(wallpaper);
-		} else {
-			addToFavorites(wallpaper);
-		}
+		startTransition(() => {
+			if (isLiked(wallpaper)) {
+				removeFromFavorites(wallpaper);
+			} else {
+				addToFavorites(wallpaper);
+			}
+		});
 	};
 	return (
 		<Button

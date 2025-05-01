@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useWallpaper from "@/stores/wallpaper";
 import { Bookmark } from "lucide-react";
+import { useTransition } from "react";
 
 type SaveButtonProps = {
 	wallpaper: Hit;
@@ -13,13 +14,15 @@ const SaveButton = ({ wallpaper }: SaveButtonProps) => {
 		(state) => state.removeFromSavedWallpapers
 	);
 	const saveWallpaper = useWallpaper((state) => state.saveWallpaper);
-	useWallpaper((state) => state.savedWallpapers);
+	const [, startTransition] = useTransition();
 	const onClickHandler = () => {
-		if (isSaved(wallpaper)) {
-			removeFromSavedWallpapers(wallpaper);
-		} else {
-			saveWallpaper(wallpaper);
-		}
+		startTransition(() => {
+			if (isSaved(wallpaper)) {
+				removeFromSavedWallpapers(wallpaper);
+			} else {
+				saveWallpaper(wallpaper);
+			}
+		});
 	};
 	return (
 		<Button variant="outline" className={"flex-1"} onClick={onClickHandler}>
