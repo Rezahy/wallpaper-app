@@ -7,6 +7,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
+import { env } from "@/lib/env";
 import { createSearchParamsString } from "@/lib/utils";
 import { useSearchParams } from "react-router-dom";
 type WallpaperPaginationProps = {
@@ -32,7 +33,7 @@ type PaginationItemsProps = {
 	totalHits: number;
 };
 const PaginationItems = ({ currentPage, totalHits }: PaginationItemsProps) => {
-	const totalPage = Math.ceil(totalHits / 20);
+	const totalPage = Math.ceil(totalHits / env.VITE_PER_PAGE);
 	const [searchParams] = useSearchParams();
 	return (
 		<>

@@ -45,3 +45,29 @@ export const isCategory = (name: unknown): name is Category => {
 	}
 	return false;
 };
+
+export const colors = [
+	"grayscale",
+	"transparent",
+	"red",
+	"orange",
+	"yellow",
+	"green",
+	"turquoise",
+	"blue",
+	"lilac",
+	"pink",
+	"white",
+	"gray",
+	"black",
+	"brown",
+] as const;
+
+export type Color = (typeof colors)[number];
+
+export const isColor = (color: unknown): color is Color => {
+	if (typeof name === "string") {
+		return colors.includes(color as Color);
+	}
+	return false;
+};

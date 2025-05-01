@@ -1,9 +1,10 @@
-import { ChevronRight, LayoutGrid, Wallpaper } from "lucide-react";
+import { ChevronRight, LayoutGrid, Palette, Wallpaper } from "lucide-react";
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarGroup,
 	SidebarGroupContent,
+	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
@@ -13,7 +14,7 @@ import {
 	SidebarMenuSubItem,
 	useSidebar,
 } from "@/components/ui/sidebar";
-import { categories, menuItemLinks } from "@/lib/menu-item-link";
+import { categories, colors, menuItemLinks } from "@/lib/menu-item-link";
 import { Link, useLocation } from "react-router-dom";
 import {
 	Collapsible,
@@ -83,6 +84,7 @@ const AppSidebar = () => {
 					</SidebarGroupContent>
 				</SidebarGroup>
 				<SidebarGroup>
+					<SidebarGroupLabel>Filter Wallpaper</SidebarGroupLabel>
 					<SidebarMenu>
 						<Collapsible asChild className="group/collapsible">
 							<SidebarMenuItem>
@@ -100,6 +102,32 @@ const AppSidebar = () => {
 												<SidebarMenuSubButton asChild>
 													<Link to={`category/${category}`}>
 														<span>{category}</span>
+													</Link>
+												</SidebarMenuSubButton>
+											</SidebarMenuSubItem>
+										))}
+									</SidebarMenuSub>
+								</CollapsibleContent>
+							</SidebarMenuItem>
+						</Collapsible>
+					</SidebarMenu>
+					<SidebarMenu>
+						<Collapsible asChild className="group/collapsible">
+							<SidebarMenuItem>
+								<CollapsibleTrigger asChild>
+									<SidebarMenuButton tooltip="Categories">
+										<Palette />
+										<span>Color</span>
+										<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+									</SidebarMenuButton>
+								</CollapsibleTrigger>
+								<CollapsibleContent>
+									<SidebarMenuSub>
+										{colors.map((color) => (
+											<SidebarMenuSubItem>
+												<SidebarMenuSubButton asChild>
+													<Link to={`color/${color}`}>
+														<span>{color}</span>
 													</Link>
 												</SidebarMenuSubButton>
 											</SidebarMenuSubItem>
