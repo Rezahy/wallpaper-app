@@ -6,15 +6,17 @@ import { useSearchParams } from "react-router-dom";
 import WallpaperApi from "@/api/wallpaper";
 import { useQuery } from "@tanstack/react-query";
 import WallpaperListSkeleton from "@/components/skeletons/wallpaper-list-skeleton";
-import WallpaperList from "@/components/wallpaper-list";
+import usePagination from "@/hooks/use-pagination";
+import WallpaperPaginationList from "@/components/wallpaper-pagination-list";
 
 const HomePage = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const currentPage = usePagination();
 	const { data, isPending } = useQuery({
-		queryKey: ["wallpaper"],
-		queryFn: WallpaperApi.getWallpaper,
+		queryKey: ["wallpaper", "", currentPage],
+		queryFn: WallpaperApi.getWallpaper.bind(null, "", currentPage.toString()),
 	});
 	const searchRef = useRef<HTMLInputElement | null>(null);
-	const [searchParams, setSearchParams] = useSearchParams();
 	const onSubmitHandler = (e: FormEvent) => {
 		e.preventDefault();
 		if (searchRef.current && searchRef.current.value.trim().length > 0) {
@@ -29,6 +31,7 @@ const HomePage = () => {
 			// setSearchParams(n);
 		}
 	};
+
 	return (
 		<section>
 			<header>
@@ -55,7 +58,9 @@ const HomePage = () => {
 				</form>
 			</div>
 			{isPending && <WallpaperListSkeleton />}
-			{data && <WallpaperList data={data.hits} />}
+			{data && (
+				<WallpaperPaginationList currentPage={currentPage} data={data} />
+			)}
 		</section>
 	);
 };

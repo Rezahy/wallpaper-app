@@ -3,8 +3,13 @@ import { Category, isCategory } from "@/lib/menu-item-link";
 import axiosInstance from "@/services/axios/axios-instance";
 
 class WallpaperApi {
-	static async getWallpaper() {
-		const response = await axiosInstance.get("api");
+	static async getWallpaper(query: string = "", page: string) {
+		const response = await axiosInstance.get("api", {
+			params: {
+				q: query,
+				page,
+			},
+		});
 		if (response.status !== 200) {
 			throw new Error("something went wrong");
 		}
@@ -21,7 +26,11 @@ class WallpaperApi {
 		}
 		return (response.data as WallpaperResponse).hits[0];
 	}
-	static async getWallpaperByCategory(query: string = "", category: Category) {
+	static async getWallpaperByCategory(
+		query: string = "",
+		category: Category,
+		page: string
+	) {
 		if (!isCategory(category)) {
 			throw new Error(`There is't ${category} category on website`);
 		}
@@ -29,6 +38,7 @@ class WallpaperApi {
 			params: {
 				category,
 				q: query,
+				page,
 			},
 		});
 		if (response.status !== 200) {

@@ -2,7 +2,8 @@ import WallpaperApi from "@/api/wallpaper";
 import WallpaperListSkeleton from "@/components/skeletons/wallpaper-list-skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import WallpaperList from "@/components/wallpaper-list";
+import WallpaperPaginationList from "@/components/wallpaper-pagination-list";
+import usePagination from "@/hooks/use-pagination";
 import { Category } from "@/lib/menu-item-link";
 import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
@@ -10,13 +11,15 @@ import { FormEvent, useRef } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 const CategoryPage = () => {
+	const currentPage = usePagination();
 	const { name } = useParams<{ name: string }>();
 	const { data, isPending } = useQuery({
-		queryKey: ["wallpaper", "category", name],
+		queryKey: ["wallpaper", "category", name, currentPage],
 		queryFn: WallpaperApi.getWallpaperByCategory.bind(
 			null,
 			"",
-			name as Category
+			name as Category,
+			currentPage.toString()
 		),
 	});
 	const searchRef = useRef<HTMLInputElement | null>(null);
@@ -61,7 +64,9 @@ const CategoryPage = () => {
 				</form>
 			</div>
 			{isPending && <WallpaperListSkeleton />}
-			{data && <WallpaperList data={data.hits} />}
+			{data && (
+				<WallpaperPaginationList currentPage={currentPage} data={data} />
+			)}
 		</section>
 	);
 };

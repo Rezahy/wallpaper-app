@@ -1,5 +1,5 @@
 import { Hit } from "@/@types/wallpaper-response";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import WallpaperListItem from "./wallpaper-list-item";
 
 type WallpaperListProps = {
@@ -10,11 +10,13 @@ const WallpaperList = ({ data }: WallpaperListProps) => {
 		<section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7  py-7 pb-10">
 			<AnimatePresence>
 				{data.map((wallpaper, index) => (
-					<WallpaperListItem
-						wallpaper={wallpaper}
-						index={index}
-						key={wallpaper.id}
-					/>
+					<motion.div layout key={index}>
+						<WallpaperListItem
+							key={wallpaper.id}
+							wallpaper={wallpaper}
+							index={index}
+						/>
+					</motion.div>
 				))}
 			</AnimatePresence>
 		</section>
