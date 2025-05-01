@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Hit } from "@/@types/wallpaper-response";
+import { useTransition } from "react";
 
 type LikeWallpaperButtonProps = {
 	wallpaper: Hit;
@@ -13,16 +14,18 @@ const LikeWallpaperButton = ({ wallpaper }: LikeWallpaperButtonProps) => {
 	const removeFromFavorites = useWallpaper(
 		(state) => state.removeFromFavorites
 	);
-	useWallpaper((state) => state.favoriteWallpapers);
+	const [, startTransition] = useTransition();
 	const onClickHandler = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
 		e.preventDefault();
-		if (isLiked(wallpaper)) {
-			removeFromFavorites(wallpaper);
-		} else {
-			addToFavorites(wallpaper);
-		}
+		startTransition(() => {
+			if (isLiked(wallpaper)) {
+				removeFromFavorites(wallpaper);
+			} else {
+				addToFavorites(wallpaper);
+			}
+		});
 	};
 	return (
 		<Button

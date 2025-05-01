@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Hit } from "@/@types/wallpaper-response";
 import useWallpaper from "@/stores/wallpaper";
 import { cn } from "@/lib/utils";
+import { useTransition } from "react";
 
 type SaveWallpaperButtonProps = {
 	wallpaper: Hit;
@@ -13,17 +14,19 @@ const SaveWallpaperButton = ({ wallpaper }: SaveWallpaperButtonProps) => {
 	const removeFromSavedWallpapers = useWallpaper(
 		(state) => state.removeFromSavedWallpapers
 	);
-	useWallpaper((state) => state.savedWallpapers);
+	const [, startTransition] = useTransition();
 
 	const onClickHandler = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
 		e.preventDefault();
-		if (isSaved(wallpaper)) {
-			removeFromSavedWallpapers(wallpaper);
-		} else {
-			saveWallpaper(wallpaper);
-		}
+		startTransition(() => {
+			if (isSaved(wallpaper)) {
+				removeFromSavedWallpapers(wallpaper);
+			} else {
+				saveWallpaper(wallpaper);
+			}
+		});
 	};
 	return (
 		<Button
