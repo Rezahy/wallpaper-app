@@ -2,6 +2,7 @@ import AppSidebar from "@/components/app-sidebar";
 import AppToaster from "@/components/app-toaster";
 import Footer from "@/components/footer";
 import { ModeToggle } from "@/components/mode-toggle";
+import ScrollToTop from "@/components/ScrollToTop";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Layout({
@@ -11,6 +12,7 @@ export default function Layout({
 }>) {
 	return (
 		<>
+			<ScrollToTop />
 			<SidebarProvider>
 				<AppSidebar />
 				<main className="w-screen max-w-6xl mx-auto px-7 py-7 sm:px-10 pb-10">
