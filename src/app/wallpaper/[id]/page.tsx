@@ -14,16 +14,20 @@ import SaveButton from "./save-button";
 import ShareButton from "./share-button";
 import DownloadButton from "./download-button";
 import useWallpaper from "@/stores/wallpaper";
+import WallpaperDetailsSkeleton from "@/components/skeletons/wallpaper-details-skeleton";
 
 const WallpaperDetailsPage = () => {
 	const { id } = useParams<{ id: string }>();
-	const { data } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["wallpaper", id],
 		enabled: !!id,
 		queryFn: WallpaperApi.getWallpaperById.bind(null, id!),
 	});
 	const isSaved = useWallpaper((state) => state.isSaved);
 	useWallpaper((state) => state.savedWallpapers);
+	if (isPending) {
+		return <WallpaperDetailsSkeleton />;
+	}
 	if (data) {
 		return (
 			<section className="py-7 gap-7 grid grid-cols-1 xl:grid-cols-12">
