@@ -15,6 +15,7 @@ import ShareButton from "./share-button";
 import DownloadButton from "./download-button";
 import useWallpaper from "@/stores/wallpaper";
 import WallpaperDetailsSkeleton from "@/components/skeletons/wallpaper-details-skeleton";
+import { motion } from "motion/react";
 
 const WallpaperDetailsPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -31,7 +32,16 @@ const WallpaperDetailsPage = () => {
 	if (data) {
 		return (
 			<section className="py-7 gap-7 grid grid-cols-1 xl:grid-cols-12">
-				<div className="xl:col-span-8">
+				<motion.div
+					initial={{ opacity: 0, y: -200 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						duration: 1,
+						delay: 0.25,
+						type: "spring",
+					}}
+					className="xl:col-span-8"
+				>
 					<img
 						src={data.webformatURL}
 						width={data.webformatWidth}
@@ -39,8 +49,16 @@ const WallpaperDetailsPage = () => {
 						alt="wallpaper"
 						className="rounded-xl shadow mx-auto"
 					/>
-				</div>
-				<div className="xl:col-span-4">
+				</motion.div>
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{
+						duration: 1,
+						delay: 0.8,
+					}}
+					className="xl:col-span-4"
+				>
 					<Card>
 						<CardHeader className="flex space-x-3 items-center">
 							<Avatar>
@@ -92,7 +110,7 @@ const WallpaperDetailsPage = () => {
 							<DownloadButton url={data.largeImageURL} id={data.id} />
 						</CardFooter>
 					</Card>
-				</div>
+				</motion.div>
 			</section>
 		);
 	}
