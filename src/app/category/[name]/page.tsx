@@ -1,43 +1,26 @@
 import WallpaperApi from "@/api/wallpaper";
 import WallpaperListSkeleton from "@/components/skeletons/wallpaper-list-skeleton";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import WallpaperPaginationList from "@/components/wallpaper-pagination-list";
+import WallpaperSearchForm from "@/components/wallpaper-search-form";
 import usePagination from "@/hooks/use-pagination";
+import useSearchWallpaper from "@/hooks/use-search-wallpaper";
 import { Category } from "@/lib/menu-item-link";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
-import { FormEvent, useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const CategoryPage = () => {
 	const currentPage = usePagination();
 	const { name } = useParams<{ name: string }>();
+	const query = useSearchWallpaper();
 	const { data, isPending } = useQuery({
-		queryKey: ["wallpaper", "category", name, currentPage],
+		queryKey: ["wallpaper", query, "category", name, currentPage],
 		queryFn: WallpaperApi.getWallpaperByCategory.bind(
 			null,
-			"",
+			query,
 			name as Category,
 			currentPage.toString()
 		),
 	});
-	const searchRef = useRef<HTMLInputElement | null>(null);
-	const [searchParams, setSearchParams] = useSearchParams();
-	const onSubmitHandler = (e: FormEvent) => {
-		e.preventDefault();
-		if (searchRef.current && searchRef.current.value.trim().length > 0) {
-			const value = searchRef.current.value;
-			setSearchParams((params) => {
-				params.set("q", value);
-				return params;
-			});
-			// const n = new URLSearchParams();
-			// n.append("q", value);
-			// let params = serializeFormQuery(e.target);
-			// setSearchParams(n);
-		}
-	};
 	return (
 		<section>
 			<header>
@@ -45,24 +28,7 @@ const CategoryPage = () => {
 					{name} Category
 				</h1>
 			</header>
-			<div className="max-w-xl mx-auto relative">
-				<form onSubmit={onSubmitHandler}>
-					<Input
-						placeholder="Search wallpapers ..."
-						className="pr-9"
-						name="search"
-						defaultValue={searchParams.get("q") ?? ""}
-						ref={searchRef}
-					/>
-					<Button
-						variant="ghost"
-						size="sm"
-						className="absolute right-0.5 text-gray-500 top-[50%] -translate-y-[50%]"
-					>
-						<Search absoluteStrokeWidth size={16} />
-					</Button>
-				</form>
-			</div>
+			<WallpaperSearchForm />
 			{isPending && <WallpaperListSkeleton />}
 			{data && (
 				<WallpaperPaginationList currentPage={currentPage} data={data} />

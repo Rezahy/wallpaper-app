@@ -44,7 +44,6 @@ class WallpaperApi {
 		if (response.status !== 200) {
 			throw new Error("something went wrong");
 		}
-		console.log(response);
 		return response.data as WallpaperResponse;
 	}
 	static async getWallpaperByColor(
@@ -65,7 +64,6 @@ class WallpaperApi {
 		if (response.status !== 200) {
 			throw new Error("something went wrong");
 		}
-		console.log(response);
 		return response.data as WallpaperResponse;
 	}
 }
