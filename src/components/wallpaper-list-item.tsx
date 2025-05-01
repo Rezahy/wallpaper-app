@@ -34,7 +34,7 @@ const WallpaperListItem = ({ wallpaper, index }: WallpaperListItemProps) => {
 				/> */}
 				<LazyLoadImage
 					src={wallpaper.webformatURL}
-					alt=""
+					alt={`wallpaper - ${wallpaper.id}`}
 					loading="lazy"
 					effect="blur"
 					className="h-[350px] w-full object-cover group-hover:scale-115 transition-all duration-500"

@@ -32,7 +32,7 @@ class WallpaperApi {
 		page: string
 	) {
 		if (!isCategory(category)) {
-			throw new Error(`There is't ${category} category on website`);
+			throw new Error(`There is't "${category}" category on website`);
 		}
 		const response = await axiosInstance.get("api", {
 			params: {
@@ -52,7 +52,7 @@ class WallpaperApi {
 		page: string
 	) {
 		if (!isColor(color)) {
-			throw new Error(`There is't ${color} color on website`);
+			throw new Error(`There is't "${color}" color on website`);
 		}
 		const response = await axiosInstance.get("api", {
 			params: {

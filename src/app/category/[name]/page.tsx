@@ -7,12 +7,13 @@ import useSearchWallpaper from "@/hooks/use-search-wallpaper";
 import { Category } from "@/lib/menu-item-link";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { motion } from "motion/react";
 
 const CategoryPage = () => {
 	const currentPage = usePagination();
 	const { name } = useParams<{ name: string }>();
 	const query = useSearchWallpaper();
-	const { data, isPending } = useQuery({
+	const { data, isPending, error } = useQuery({
 		queryKey: ["wallpaper", query, "category", name, currentPage],
 		queryFn: WallpaperApi.getWallpaperByCategory.bind(
 			null,
@@ -32,6 +33,17 @@ const CategoryPage = () => {
 			{isPending && <WallpaperListSkeleton />}
 			{data && (
 				<WallpaperPaginationList currentPage={currentPage} data={data} />
+			)}
+			{error && (
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.5 }}
+				>
+					<h3 className="text-2xl font-semibold py-7 text-center">
+						{error.message}
+					</h3>
+				</motion.div>
 			)}
 		</section>
 	);
