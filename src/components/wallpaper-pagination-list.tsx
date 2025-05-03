@@ -12,10 +12,12 @@ const WallpaperPaginationList = ({
 	return (
 		<>
 			<WallpaperList data={data.hits} />
-			<WallpaperPagination
-				currentPage={currentPage}
-				totalHits={data.totalHits}
-			/>
+			{data.hits.length > 0 && (
+				<WallpaperPagination
+					currentPage={currentPage}
+					totalHits={data.totalHits}
+				/>
+			)}
 		</>
 	);
 };

@@ -13,7 +13,7 @@ const FavoritePage = () => {
 				</h1>
 			</header>
 			{favoriteWallpapers.length > 0 ? (
-				<WallpaperList data={favoriteWallpapers} />
+				<WallpaperList data={favoriteWallpapers} animated />
 			) : (
 				<motion.div
 					initial={{ opacity: 0 }}

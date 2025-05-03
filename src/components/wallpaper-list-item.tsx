@@ -11,8 +11,13 @@ const MotionComponent = motion.create(Link);
 type WallpaperListItemProps = {
 	wallpaper: Hit;
 	index: number;
+	animated: boolean;
 };
-const WallpaperListItem = ({ wallpaper, index }: WallpaperListItemProps) => {
+const WallpaperListItem = ({
+	wallpaper,
+	index,
+	animated,
+}: WallpaperListItemProps) => {
 	return (
 		<MotionComponent
 			to={`/wallpaper/${wallpaper.id}`}
@@ -23,7 +28,7 @@ const WallpaperListItem = ({ wallpaper, index }: WallpaperListItemProps) => {
 				duration: 0.25,
 				delay: index / 10,
 			}}
-			exit={{ opacity: 0 }}
+			exit={animated ? { opacity: 0 } : {}}
 		>
 			<Card className="group p-0 overflow-hidden relative">
 				{/* <img

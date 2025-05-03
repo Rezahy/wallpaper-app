@@ -11,7 +11,7 @@ const SavedWallpapersPage = () => {
 				<h1 className="text-2xl font-semibold pt-7 pb-5">Saved Wallpapers</h1>
 			</header>
 			{savedWallpapers.length > 0 ? (
-				<WallpaperList data={savedWallpapers} />
+				<WallpaperList data={savedWallpapers} animated />
 			) : (
 				<motion.div
 					initial={{ opacity: 0 }}

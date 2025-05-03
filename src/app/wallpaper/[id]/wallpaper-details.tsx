@@ -16,25 +16,18 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { Hit } from "@/@types/wallpaper-response";
 import useWallpaper from "@/stores/wallpaper";
+import { useState } from "react";
+import WallpaperDetailsInfoSkeleton from "@/components/skeletons/wallpaper-details-info-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type WallpaperDetailsProps = {
 	data: Hit;
 };
 const WallpaperDetails = ({ data }: WallpaperDetailsProps) => {
-	const isSaved = useWallpaper((state) => state.isSaved);
-	useWallpaper((state) => state.savedWallpapers);
+	const [isImageLoaded, setIsImageLoaded] = useState(false);
 	return (
 		<section className="py-7 gap-7 grid grid-cols-1 xl:grid-cols-12">
-			<motion.div
-				initial={{ opacity: 0, y: -200 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{
-					duration: 1,
-					delay: 0.25,
-					type: "spring",
-				}}
-				className="xl:col-span-8 justify-self-center"
-			>
+			<div className="xl:col-span-8 justify-self-center w-full">
 				{/* <img
       src={data.webformatURL}
       width={data.webformatWidth}
@@ -42,77 +35,114 @@ const WallpaperDetails = ({ data }: WallpaperDetailsProps) => {
       alt="wallpaper"
       className="rounded-xl shadow mx-auto"
     /> */}
-				<LazyLoadImage
-					src={data.webformatURL}
-					width={data.webformatWidth}
-					height={data.webformatHeight}
-					effect="blur"
-					alt="wallpaper"
-					className="rounded-xl shadow mx-auto"
-				/>
-			</motion.div>
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{
-					duration: 1,
-					delay: 0.8,
-				}}
-				className="xl:col-span-4"
-			>
-				<Card>
-					<CardHeader className="flex space-x-3 items-center">
-						<Avatar>
-							<AvatarImage
-								src={data.userImageURL}
-								className="rounded-full size-10"
-							/>
-						</Avatar>
-						<Link
-							to={`https://pixabay.com/users/${data.user}-${data.user_id}/`}
-							className="text-sm font-semibold"
-							target="_blank"
-						>
-							{data.user}
-						</Link>
-					</CardHeader>
-					<Separator />
-					<CardContent className="space-y-1">
-						<div className="flex justify-between">
-							<span className="text-muted-foreground">Views</span>
-							<span>{data.views}</span>
-						</div>
-						<div className="flex justify-between">
-							<span className="text-muted-foreground">Downloads</span>
-							<span>{data.downloads}</span>
-						</div>
-						<div className="flex justify-between">
-							<span className="text-muted-foreground">Saves</span>
-							<span>
-								{isSaved(data) ? data.collections + 1 : data.collections}
-							</span>
-						</div>
-						<div className="flex justify-between">
-							<span className="text-muted-foreground">Media type</span>
-							<span>{data.type}</span>
-						</div>
-						<div className="flex justify-between">
-							<span className="text-muted-foreground">Resolution</span>
-							<span>
-								{data.imageWidth} x {data.imageHeight}
-							</span>
-						</div>
-					</CardContent>
-					<Separator />
-					<CardFooter className="flex space-x-3">
-						<LikeButton likes={data.likes} wallpaper={data} />
-						<SaveButton wallpaper={data} />
-						<ShareButton title={data.pageURL} text={data.tags} />
-						<DownloadButton url={data.largeImageURL} id={data.id} />
-					</CardFooter>
-				</Card>
-			</motion.div>
+				{isImageLoaded ? (
+					<motion.div
+						initial={{ opacity: 0, y: -200 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{
+							duration: 1,
+							delay: 0.25,
+							type: "spring",
+						}}
+						className="flex justify-center items-center"
+					>
+						<LazyLoadImage
+							src={data.webformatURL}
+							width={data.webformatWidth}
+							height={data.webformatHeight}
+							effect="blur"
+							alt="wallpaper"
+							className="rounded-xl shadow mx-auto"
+						/>
+					</motion.div>
+				) : (
+					<Skeleton className="h-76">
+						<img
+							src={data.webformatURL}
+							alt=""
+							className="hidden"
+							onLoad={() => setIsImageLoaded(true)}
+						/>
+					</Skeleton>
+				)}
+			</div>
+			{isImageLoaded ? (
+				<WallpaperDetailsInfo data={data} />
+			) : (
+				<WallpaperDetailsInfoSkeleton />
+			)}
 		</section>
 	);
 };
 export default WallpaperDetails;
+
+type WallpaperDetailsInfoProps = {
+	data: Hit;
+};
+const WallpaperDetailsInfo = ({ data }: WallpaperDetailsInfoProps) => {
+	const isSaved = useWallpaper((state) => state.isSaved);
+	useWallpaper((state) => state.savedWallpapers);
+	return (
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{
+				duration: 1,
+				delay: 0.8,
+			}}
+			className="xl:col-span-4"
+		>
+			<Card>
+				<CardHeader className="flex space-x-3 items-center">
+					<Avatar>
+						<AvatarImage
+							src={data.userImageURL}
+							className="rounded-full size-10"
+						/>
+					</Avatar>
+					<Link
+						to={`https://pixabay.com/users/${data.user}-${data.user_id}/`}
+						className="text-sm font-semibold"
+						target="_blank"
+					>
+						{data.user}
+					</Link>
+				</CardHeader>
+				<Separator />
+				<CardContent className="space-y-1">
+					<div className="flex justify-between">
+						<span className="text-muted-foreground">Views</span>
+						<span>{data.views}</span>
+					</div>
+					<div className="flex justify-between">
+						<span className="text-muted-foreground">Downloads</span>
+						<span>{data.downloads}</span>
+					</div>
+					<div className="flex justify-between">
+						<span className="text-muted-foreground">Saves</span>
+						<span>
+							{isSaved(data) ? data.collections + 1 : data.collections}
+						</span>
+					</div>
+					<div className="flex justify-between">
+						<span className="text-muted-foreground">Media type</span>
+						<span>{data.type}</span>
+					</div>
+					<div className="flex justify-between">
+						<span className="text-muted-foreground">Resolution</span>
+						<span>
+							{data.imageWidth} x {data.imageHeight}
+						</span>
+					</div>
+				</CardContent>
+				<Separator />
+				<CardFooter className="flex space-x-3">
+					<LikeButton likes={data.likes} wallpaper={data} />
+					<SaveButton wallpaper={data} />
+					<ShareButton title={data.pageURL} text={data.tags} />
+					<DownloadButton url={data.largeImageURL} id={data.id} />
+				</CardFooter>
+			</Card>
+		</motion.div>
+	);
+};
