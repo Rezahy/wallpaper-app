@@ -89,7 +89,10 @@ const AppSidebar = () => {
 						<Collapsible asChild className="group/collapsible">
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
-									<SidebarMenuButton tooltip="Categories">
+									<SidebarMenuButton
+										tooltip="Categories"
+										isActive={pathname.startsWith("/category/")}
+									>
 										<LayoutGrid />
 										<span>Category</span>
 										<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -99,8 +102,12 @@ const AppSidebar = () => {
 									<SidebarMenuSub>
 										{categories.map((category) => (
 											<SidebarMenuSubItem>
-												<SidebarMenuSubButton asChild>
-													<Link to={`category/${category}`}>
+												<SidebarMenuSubButton
+													asChild
+													onClick={sidebarMenuButtonClickHandler}
+													isActive={pathname === `/category/${category}`}
+												>
+													<Link to={`/category/${category}`}>
 														<span>{category}</span>
 													</Link>
 												</SidebarMenuSubButton>
@@ -115,7 +122,10 @@ const AppSidebar = () => {
 						<Collapsible asChild className="group/collapsible">
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
-									<SidebarMenuButton tooltip="Categories">
+									<SidebarMenuButton
+										tooltip="Categories"
+										isActive={pathname.startsWith("/color/")}
+									>
 										<Palette />
 										<span>Color</span>
 										<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -125,7 +135,11 @@ const AppSidebar = () => {
 									<SidebarMenuSub>
 										{colors.map((color) => (
 											<SidebarMenuSubItem>
-												<SidebarMenuSubButton asChild>
+												<SidebarMenuSubButton
+													asChild
+													onClick={sidebarMenuButtonClickHandler}
+													isActive={pathname === `/color/${color}`}
+												>
 													<Link to={`color/${color}`}>
 														<span>{color}</span>
 													</Link>
