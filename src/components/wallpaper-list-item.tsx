@@ -47,7 +47,7 @@ const WallpaperListItem = ({
 						alt={`wallpaper - ${wallpaper.id}`}
 						loading="lazy"
 						effect="blur"
-						className="h-[350px] w-full object-cover group-hover:scale-115 transition-all duration-500"
+						className="h-[350px] w-full object-cover group-hover:scale-115 group-active:scale-115 transition-all duration-500"
 						style={{
 							transitionProperty: "all",
 							transitionTimingFunction:
@@ -68,8 +68,8 @@ const WallpaperListItem = ({
 
 				{isImageLoaded && (
 					<>
-						<span className="absolute top-0 left-0 right-0 h-[60px] opacity-0 transition-opacity duration-400 group-hover:opacity-100 bg-gradient-to-b from-[#191b26]/90 from-0% to-transparent to-100%"></span>
-						<div className="absolute top-2 left-2 space-x-3 opacity-0 group-hover:opacity-100 transition-opacity duration-400">
+						<span className="absolute top-0 left-0 right-0 h-[60px] opacity-0 transition-opacity duration-400 group-active:opacity-100 group-hover:opacity-100 bg-gradient-to-b from-[#191b26]/90 from-0% to-transparent to-100%"></span>
+						<div className="absolute top-2 left-2 space-x-3 opacity-0 group-active:opacity-100 group-hover:opacity-100 transition-opacity duration-400">
 							<SaveWallpaperButton wallpaper={wallpaper} />
 							<LikeWallpaperButton wallpaper={wallpaper} />
 						</div>
