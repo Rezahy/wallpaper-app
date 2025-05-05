@@ -25,7 +25,7 @@ const CategoryPage = () => {
 	return (
 		<section>
 			<header>
-				<h1 className="text-2xl font-semibold py-7 text-center">
+				<h1 className="text-2xl font-semibold py-7 text-center capitalize">
 					{name} Category
 				</h1>
 			</header>

@@ -25,7 +25,7 @@ const ColorPage = () => {
 	return (
 		<section>
 			<header>
-				<h1 className="text-2xl font-semibold py-7 text-center">
+				<h1 className="text-2xl font-semibold py-7 text-center capitalize">
 					{name} Color Wallpapers
 				</h1>
 			</header>
